@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const srcPath = path.join(__dirname, '/../src');
-const dfltPort = 8000;
+const dfltPort = 7003;
 function getDefaultModules() {
   return {
     preLoaders: [{
@@ -19,7 +19,7 @@ function getDefaultModules() {
         loader: 'style-loader!css-loader!postcss-loader!sass-loader?outputStyle=expanded&indentedSyntax'
       },
       {
-        test: /\.scss/,
+        test: /\.scss$/,
         loader: 'style-loader!css-loader!postcss-loader!sass-loader?outputStyle=expanded'
       },
       {
@@ -35,6 +35,10 @@ function getDefaultModules() {
         loader: 'url-loader?limit=8192'
       },
       {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
+      {
         test: /\.(mp4|ogg|svg)$/,
         loader: 'file-loader'
       }
@@ -47,6 +51,10 @@ module.exports = {
   port: dfltPort,
   getDefaultModules: getDefaultModules,
   postcss: function () {
-    return [];
+    return [
+      require('autoprefixer')({
+        browsers: ['last 2 versions', 'ie >= 8']
+      })
+    ];
   }
 };
